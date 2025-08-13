@@ -1,0 +1,42 @@
+name: trading
+
+on:
+  workflow_dispatch: {}              # run by hand
+  schedule:
+    - cron: "*/15 13-20 * * 1-5"     # every 15 min, Mon–Fri, 13:00–20:59 UTC (edit as you like)
+
+concurrency:
+  group: trading-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      APCA_API_KEY_ID: ${{ secrets.APCA_API_KEY_ID }}
+      APCA_API_SECRET_KEY: ${{ secrets.APCA_API_SECRET_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      SYMBOLS: "SPY"
+      ENV: "paper"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install deps
+        run: |
+          python -m pip install -U pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # Example if you need to install the GPT wrapper directly:
+          # pip install "git+https://github.com/LuckyOne7777/ChatGPT-Micro-Cap-Experiment.git"
+
+      - name: Run bot
+        run: |
+          python realtime_bot.py    # <-- change to your script name
