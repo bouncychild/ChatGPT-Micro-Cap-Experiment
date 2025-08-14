@@ -41,7 +41,7 @@ jobs:
 
       - name: Run bot
         run: |
-          python test_c_tiny_trade.py
+          python .github/workflows/test_c_tiny_trade.py
 
 
       
