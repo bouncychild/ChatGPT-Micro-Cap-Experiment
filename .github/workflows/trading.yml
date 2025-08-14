@@ -34,9 +34,7 @@ jobs:
         run: |
           python -m pip install -U pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          # Example if you need to install the GPT wrapper directly:
-          # pip install "git+https://github.com/LuckyOne7777/ChatGPT-Micro-Cap-Experiment.git"
 
       - name: Run bot
         run: |
-          python realtime_bot.py    # <-- change to your script name
+          python trading_script.py
