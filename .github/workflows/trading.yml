@@ -38,3 +38,11 @@ jobs:
       - name: Run bot
         run: |
           python trading_script.py
+
+      - name: Run bot
+        run: |
+          python test_c_tiny_trade.py
+
+
+      
+          
